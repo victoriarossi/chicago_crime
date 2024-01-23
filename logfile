@@ -1,5 +1,0 @@
-2024-01-22 18:01:37.252 CST [12296] LOG:  starting PostgreSQL 14.10 (Homebrew) on aarch64-apple-darwin23.0.0, compiled by Apple clang version 15.0.0 (clang-1500.0.40.1), 64-bit
-2024-01-22 18:01:37.256 CST [12296] LOG:  could not bind IPv4 address "10.25.239.136": Can't assign requested address
-2024-01-22 18:01:37.256 CST [12296] WARNING:  could not create listen socket for "localhost"
-2024-01-22 18:01:37.257 CST [12296] FATAL:  could not create any TCP/IP sockets
-2024-01-22 18:01:37.257 CST [12296] LOG:  database system is shut down
