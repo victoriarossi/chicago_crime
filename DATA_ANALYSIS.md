@@ -6,12 +6,12 @@
 
 ## Crime analysis
 ### Total count of registered crimes:
-```
+````sql
 SELECT 
     count(*) as total_records
 FROM 
     "chicago_crime";
-```
+````
 
 **Results:**
 total_records|
@@ -19,16 +19,30 @@ total_records|
 258030|
 
 ### Earliest and latest date of recorded crimes in 2023:
-```
+````sql
 SELECT 
     MIN(date) as earliest, MAX(date) as latest
 FROM 
     "chicago_crime"
 WHERE 
     EXTRACT(YEAR from date)::numeric = '2023';
-```
+````
 
 **Results:**
-      earliest       |       latest        
----------------------+---------------------
- 2023-01-15 05:05:00 | 2023-12-31 23:59:00
+earliest|latest
+---------------------|---------------------
+2023-01-15 05:05:00|2023-12-31 23:59:00
+
+### Amount of crime per month:
+````sql
+SELECT 
+    to_char(date, 'MM') as month, count(*) AS crime_amount
+FROM 
+    "chicago_crime"
+WHERE 
+    EXTRACT(YEAR from date)::numeric = '2023'
+GROUP BY 
+    month
+ORDER BY 
+    month;
+````
