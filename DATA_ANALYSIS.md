@@ -110,27 +110,6 @@ STALKING| 0.19%
 THEFT|    22.027%
 WEAPONS VIOLATION|     3.287%
 
-
- ### Most common crime type in 2023
- ````sql
-SELECT 
-    primary_type as type, count(*) AS crimes
-FROM 
-    "chicago_crime"
-WHERE 
-    EXTRACT(YEAR from date)::numeric = '2023'
-GROUP BY 
-    primary_type
-ORDER BY 
-    crime_amount DESC
-LIMIT 1;
-````
-
-**Result:**
-type|crimes 
---------------|--------------
-THEFT|55095
-
 ### Month with more crime
 ````sql
 SELECT 
@@ -195,3 +174,90 @@ arrest_status|percentage
 ---------------|---------------------
 Arrest| 11.7592733262435732
 No arrest| 88.2407266737564268
+
+### Most common crime type in 2023
+ ````sql
+SELECT 
+    primary_type as type, count(*) AS crimes
+FROM 
+    "chicago_crime"
+WHERE 
+    EXTRACT(YEAR from date)::numeric = '2023'
+GROUP BY 
+    primary_type
+ORDER BY 
+    crime_amount DESC
+LIMIT 1;
+````
+
+**Result:**
+type|crimes 
+--------------|--------------
+THEFT|55095
+
+### Most Common Location for Theft
+````sql
+SELECT 
+    location_description, count(*) AS crime_amount
+FROM 
+    "chicago_crime"
+WHERE 
+    EXTRACT(YEAR from date)::numeric = '2023' AND primary_type = 'THEFT'
+GROUP BY 
+    location_description
+ORDER BY 
+    crime_amount DESC
+LIMIT 1;
+````
+
+**Result:**
+location_description|crime_amount 
+----------------------|--------------
+STREET|15194
+
+### Domestic Violence Incidents
+````sql
+SELECT 
+    CASE WHEN domestic = 't' THEN 'Yes' ELSE 'No' END AS domestic_violence, 
+    (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM "chicago_crime" WHERE EXTRACT(YEAR from date)::numeric = '2023')) AS percentage
+FROM 
+    "chicago_crime"
+WHERE 
+    EXTRACT(YEAR from date)::numeric = '2023'
+GROUP BY 
+    domestic_violence;
+````
+
+**Results:**
+domestic_violence |     percentage      
+-------------------|---------------------
+No                | 82.0414511086412448
+Yes               | 17.9585488913587552
+
+### High-Risk Blocks
+````sql
+SELECT 
+    block, count(*) as crime_amount
+FROM 
+    "chicago_crime"
+WHERE 
+    EXTRACT(YEAR from date)::numeric = '2023'
+GROUP BY 
+    block
+ORDER BY 
+    crime_amount DESC
+LIMIT 10;
+````
+**Result:**
+block|crime_amount 
+-------------------------------------|--------------
+001XX N STATE ST                    |          815
+0000X W TERMINAL ST                 |          527
+0000X N STATE ST                    |          449
+057XX S CICERO AVE                  |          295
+011XX S CANAL ST                    |          270
+0000X E GRAND AVE                   |          261
+002XX E HURON ST                    |          248
+064XX S DR MARTIN LUTHER KING JR DR |          224
+005XX N STATE ST                    |          219
+017XX W HOWARD ST                   |          219
